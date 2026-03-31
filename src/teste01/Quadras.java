@@ -5,21 +5,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Panel;
 import java.awt.Color;
-import javax.swing.JTextArea;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
-public class Cliente extends JFrame {
+import javax.swing.JTextArea;
+
+public class Quadras extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtTelefone;
-	private JTextField txtCPF;
-	private JTextField txtNome;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -28,7 +27,7 @@ public class Cliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cliente frame = new Cliente();
+					Quadras frame = new Quadras();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,11 +39,10 @@ public class Cliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Cliente() {
+	public Quadras() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 960, 620);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(223, 223, 223));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -61,74 +59,62 @@ public class Cliente extends JFrame {
 		lblAjuda.setBounds(132, 11, 46, 14);
 		contentPane.add(lblAjuda);
 		
+		JButton btnNewButton = new JButton("Clientes");
+		btnNewButton.setBounds(10, 36, 99, 23);
+		contentPane.add(btnNewButton);
+		
 		JButton btnQuadras = new JButton("Quadras");
-		btnQuadras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnQuadras.setBounds(119, 36, 87, 23);
 		contentPane.add(btnQuadras);
 		
-		JButton btnStatusDaQuadra = new JButton("Status das Quadras");
-		btnStatusDaQuadra.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnStatusDaQuadra.setBounds(368, 36, 189, 23);
-		contentPane.add(btnStatusDaQuadra);
-		
 		JButton btnAgendamentos = new JButton("Agendamentos");
-		btnAgendamentos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnAgendamentos.setBounds(216, 36, 142, 23);
 		contentPane.add(btnAgendamentos);
 		
+		JButton btnStatusDaQuadra = new JButton("Status das Quadras");
+		btnStatusDaQuadra.setBounds(368, 36, 189, 23);
+		contentPane.add(btnStatusDaQuadra);
+		
 		Panel panel = new Panel();
-		panel.setBackground(new Color(192, 192, 192));
+		panel.setLayout(null);
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(10, 65, 908, 490);
 		contentPane.add(panel);
-		panel.setLayout(null);
 		
 		Panel panel_1 = new Panel();
+		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(223, 223, 223));
 		panel_1.setBounds(25, 22, 859, 198);
 		panel.add(panel_1);
-		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nome:");
 		lblNewLabel_1.setBounds(20, 11, 46, 14);
 		panel_1.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("CPF:");
+		JLabel lblNewLabel_1_1 = new JLabel("Tipo:");
 		lblNewLabel_1_1.setBounds(20, 36, 46, 14);
 		panel_1.add(lblNewLabel_1_1);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Telefone:");
-		lblNewLabel_1_2.setBounds(20, 61, 56, 14);
+		JLabel lblNewLabel_1_2 = new JLabel("Valor / Hora:");
+		lblNewLabel_1_2.setBounds(20, 61, 70, 14);
 		panel_1.add(lblNewLabel_1_2);
 		
-		txtTelefone = new JTextField();
-		txtTelefone.setBounds(86, 58, 486, 20);
-		panel_1.add(txtTelefone);
-		txtTelefone.setColumns(10);
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(100, 58, 486, 20);
+		panel_1.add(textField);
 		
-		txtCPF = new JTextField();
-		txtCPF.setColumns(10);
-		txtCPF.setBounds(86, 33, 486, 20);
-		panel_1.add(txtCPF);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(100, 33, 486, 20);
+		panel_1.add(textField_1);
 		
-		txtNome = new JTextField();
-		txtNome.setColumns(10);
-		txtNome.setBounds(86, 8, 486, 20);
-		panel_1.add(txtNome);
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(100, 8, 486, 20);
+		panel_1.add(textField_2);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnCadastrar.setBounds(539, 164, 104, 23);
 		panel_1.add(btnCadastrar);
 		
@@ -139,18 +125,7 @@ public class Cliente extends JFrame {
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setBounds(760, 164, 89, 23);
 		panel_1.add(btnExcluir);
-		
-		JLabel lblNewLabel = new JLabel("Buscar:");
-		lblNewLabel.setBounds(25, 255, 70, 14);
-		panel.add(lblNewLabel);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(105, 250, 157, 22);
-		panel.add(textArea);
-		
-		JButton btnNewButton = new JButton("Clientes");
-		btnNewButton.setBounds(10, 36, 99, 23);
-		contentPane.add(btnNewButton);
 
 	}
+
 }
