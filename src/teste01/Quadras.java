@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
-public class Quadras extends JFrame {
+public class Quadras extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -40,92 +40,57 @@ public class Quadras extends JFrame {
 	 * Create the frame.
 	 */
 	public Quadras() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 960, 620);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblArquivo = new JLabel("Arquivo");
-		lblArquivo.setBounds(20, 11, 46, 14);
-		contentPane.add(lblArquivo);
-		
-		JLabel lblEditar = new JLabel("Editar");
-		lblEditar.setBounds(76, 11, 46, 14);
-		contentPane.add(lblEditar);
-		
-		JLabel lblAjuda = new JLabel("Ajuda");
-		lblAjuda.setBounds(132, 11, 46, 14);
-		contentPane.add(lblAjuda);
-		
-		JButton btnNewButton = new JButton("Clientes");
-		btnNewButton.setBounds(10, 36, 99, 23);
-		contentPane.add(btnNewButton);
-		
-		JButton btnQuadras = new JButton("Quadras");
-		btnQuadras.setBounds(119, 36, 87, 23);
-		contentPane.add(btnQuadras);
-		
-		JButton btnAgendamentos = new JButton("Agendamentos");
-		btnAgendamentos.setBounds(216, 36, 142, 23);
-		contentPane.add(btnAgendamentos);
-		
-		JButton btnStatusDaQuadra = new JButton("Status das Quadras");
-		btnStatusDaQuadra.setBounds(368, 36, 189, 23);
-		contentPane.add(btnStatusDaQuadra);
-		
-		Panel panel = new Panel();
-		panel.setLayout(null);
-		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(10, 65, 908, 490);
-		contentPane.add(panel);
-		
-		Panel panel_1 = new Panel();
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(223, 223, 223));
-		panel_1.setBounds(25, 22, 859, 198);
-		panel.add(panel_1);
-		
-		JLabel lblNewLabel_1 = new JLabel("Nome:");
-		lblNewLabel_1.setBounds(20, 11, 46, 14);
-		panel_1.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("Tipo:");
-		lblNewLabel_1_1.setBounds(20, 36, 46, 14);
-		panel_1.add(lblNewLabel_1_1);
-		
-		JLabel lblNewLabel_1_2 = new JLabel("Valor / Hora:");
-		lblNewLabel_1_2.setBounds(20, 61, 70, 14);
-		panel_1.add(lblNewLabel_1_2);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(100, 58, 486, 20);
-		panel_1.add(textField);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(100, 33, 486, 20);
-		panel_1.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(100, 8, 486, 20);
-		panel_1.add(textField_2);
-		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(539, 164, 104, 23);
-		panel_1.add(btnCadastrar);
-		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(661, 164, 89, 23);
-		panel_1.add(btnEditar);
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(760, 164, 89, 23);
-		panel_1.add(btnExcluir);
+	    // 1. A própria classe Quadras é o painel de fundo (o antigo 'panel' cinza)
+	    this.setLayout(null);
+	    this.setBackground(Color.LIGHT_GRAY);
+	    
+	    // 2. Painel interno mais claro (panel_1) que segura os campos e botões
+	    JPanel panel_1 = new JPanel(); // Mudei de Panel para JPanel
+	    panel_1.setLayout(null);
+	    panel_1.setBackground(new Color(223, 223, 223));
+	    panel_1.setBounds(25, 22, 859, 198);
+	    this.add(panel_1);
+	    
+	    // 3. Adicionando as Labels ao panel_1
+	    JLabel lblNewLabel_1 = new JLabel("Nome:");
+	    lblNewLabel_1.setBounds(20, 11, 46, 14);
+	    panel_1.add(lblNewLabel_1);
+	    
+	    JLabel lblNewLabel_1_1 = new JLabel("Tipo:");
+	    lblNewLabel_1_1.setBounds(20, 36, 46, 14);
+	    panel_1.add(lblNewLabel_1_1);
+	    
+	    JLabel lblNewLabel_1_2 = new JLabel("Valor / Hora:");
+	    lblNewLabel_1_2.setBounds(20, 61, 70, 14);
+	    panel_1.add(lblNewLabel_1_2);
+	    
+	    // 4. Adicionando os TextFields ao panel_1 (Ajustei a ordem visualmente de cima para baixo)
+	    JTextField textField_2 = new JTextField(); // Referente ao Nome
+	    textField_2.setColumns(10);
+	    textField_2.setBounds(100, 8, 486, 20);
+	    panel_1.add(textField_2);
 
+	    JTextField textField_1 = new JTextField(); // Referente ao Tipo
+	    textField_1.setColumns(10);
+	    textField_1.setBounds(100, 33, 486, 20);
+	    panel_1.add(textField_1);
+	    
+	    JTextField textField = new JTextField(); // Referente ao Valor/Hora
+	    textField.setColumns(10);
+	    textField.setBounds(100, 58, 486, 20);
+	    panel_1.add(textField);
+	    
+	    // 5. Adicionando os Botões ao panel_1
+	    JButton btnCadastrar = new JButton("Cadastrar");
+	    btnCadastrar.setBounds(539, 164, 104, 23);
+	    panel_1.add(btnCadastrar);
+	    
+	    JButton btnEditar = new JButton("Editar");
+	    btnEditar.setBounds(661, 164, 89, 23);
+	    panel_1.add(btnEditar);
+	    
+	    JButton btnExcluir = new JButton("Excluir");
+	    btnExcluir.setBounds(760, 164, 89, 23);
+	    panel_1.add(btnExcluir);
 	}
-
 }
