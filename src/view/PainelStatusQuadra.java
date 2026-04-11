@@ -12,6 +12,7 @@ public class PainelStatusQuadra extends JPanel {
     // Construtor: Inicializa e posiciona os elementos do painel
     public PainelStatusQuadra() {
         this.setLayout(null);
+        this.setSize(908, 490);
         this.setBackground(Color.LIGHT_GRAY); 
         
         JPanel panel_1 = new JPanel(); 

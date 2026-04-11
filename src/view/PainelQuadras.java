@@ -14,6 +14,7 @@ public class PainelQuadras extends JPanel {
     // Construtor: Monta o formulário de cadastro e os botões de ação
     public PainelQuadras() {
         this.setLayout(null);
+        this.setSize(908, 490);
         this.setBackground(Color.LIGHT_GRAY);
         
         JPanel panel_1 = new JPanel(); 

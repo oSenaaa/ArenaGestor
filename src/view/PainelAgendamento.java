@@ -15,6 +15,7 @@ public class PainelAgendamento extends JPanel {
     // Construtor: Inicializa os campos de entrada (Comboboxes e TextFields)
     public PainelAgendamento() {
         this.setLayout(null);
+        this.setSize(908, 490);
         this.setBackground(Color.LIGHT_GRAY);
         
         JPanel panel_1 = new JPanel(); 
