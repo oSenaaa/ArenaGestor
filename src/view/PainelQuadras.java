@@ -5,6 +5,12 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import model.*;
+import repository.QuadraRepository;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 // Painel para gerenciar o CRUD (Cadastro) das Quadras
 public class PainelQuadras extends JPanel {
@@ -48,14 +54,70 @@ public class PainelQuadras extends JPanel {
         panel_1.add(txtValor);
         
         JButton btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String nome = txtNome.getText();
+                    String tipo = txtTipo.getText().toLowerCase();
+                    double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
+                    
+                    Quadra novaQuadra;
+                    // Define qual classe instanciar baseada no que o usuário digitou
+                    if (tipo.contains("futsal")) novaQuadra = new QuadraFutsal(0, nome, valor);
+                    else if (tipo.contains("tênis") || tipo.contains("tenis")) novaQuadra = new QuadraTenis(0, nome, valor);
+                    else if (tipo.contains("society")) novaQuadra = new QuadraSociety(0, nome, valor);
+                    else if (tipo.contains("campo")) novaQuadra = new QuadraCampo(0, nome, valor);
+                    else {
+                        JOptionPane.showMessageDialog(null, "Tipo inválido! Digite Futsal, Tênis, Society ou Campo.");
+                        return;
+                    }
+                    
+                    new QuadraRepository().salvar(novaQuadra);
+                    JOptionPane.showMessageDialog(null, "Quadra cadastrada com sucesso!");
+                    txtNome.setText(""); txtTipo.setText(""); txtValor.setText("");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar. Verifique se o valor numérico está correto.");
+                }
+            }
+        });
         btnCadastrar.setBounds(539, 164, 104, 23);
         panel_1.add(btnCadastrar);
         
         JButton btnEditar = new JButton("Editar");
+        btnEditar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Solicita o ID provisoriamente via pop-up
+                String idStr = JOptionPane.showInputDialog("Digite o ID da Quadra que deseja editar:");
+                if (idStr != null && !idStr.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(idStr);
+                        String nome = txtNome.getText();
+                        double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
+                        
+                        // Assumindo Futsal como padrão só para atualizar os dados básicos na edição provisória
+                        Quadra quadraEditada = new QuadraFutsal(id, nome, valor); 
+                        new QuadraRepository().editar(quadraEditada);
+                        JOptionPane.showMessageDialog(null, "Quadra editada com sucesso!");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao editar. Verifique os dados.");
+                    }
+                }
+            }
+        });
         btnEditar.setBounds(661, 164, 89, 23);
         panel_1.add(btnEditar);
         
         JButton btnExcluir = new JButton("Excluir");
+        btnExcluir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String idStr = JOptionPane.showInputDialog("Digite o ID da Quadra para excluir:");
+                if (idStr != null && !idStr.isEmpty()) {
+                    int id = Integer.parseInt(idStr);
+                    new QuadraRepository().excluir(id);
+                    JOptionPane.showMessageDialog(null, "Quadra excluída!");
+                }
+            }
+        });
         btnExcluir.setBounds(760, 164, 89, 23);
         panel_1.add(btnExcluir);
     }

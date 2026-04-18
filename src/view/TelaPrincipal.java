@@ -139,10 +139,41 @@ public class TelaPrincipal extends JFrame {
         panel_1.add(btnCadastrar);
         
         JButton btnEditar = new JButton("Editar");
+        btnEditar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Pega os dados da tela (lembrando que o CPF é o que identifica quem será editado)
+                    Cliente clienteEditado = new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText());
+                    
+                    ClienteRepository repo = new ClienteRepository();
+                    repo.editar(clienteEditado);
+                    
+                    JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
+                    txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText("");
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         btnEditar.setBounds(661, 164, 89, 23);
         panel_1.add(btnEditar);
         
         JButton btnExcluir = new JButton("Excluir");
+        btnExcluir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cpfDigitado = txtCPF.getText();
+                if(cpfDigitado.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Digite o CPF do cliente que deseja excluir.");
+                    return;
+                }
+                
+                ClienteRepository repo = new ClienteRepository();
+                repo.excluir(cpfDigitado);
+                
+                JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+                txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText("");
+            }
+        });
         btnExcluir.setBounds(760, 164, 89, 23);
         panel_1.add(btnExcluir);
         
