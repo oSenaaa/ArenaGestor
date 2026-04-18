@@ -13,12 +13,12 @@ public class ReservaRepository {
 
     public void salvar(Reserva reserva) {
         
-        // 1. Antes de salvar, verifica se a quadra está livre (Atende ao RF004)
+        // Antes de salvar, verifica se a quadra está livre (Atende ao RF004)
         if (!isDisponivel(reserva.getQuadra().getId(), reserva.getData(), reserva.getHoraInicio(), reserva.getHoraFim())) {
             throw new IllegalArgumentException("A quadra " + reserva.getQuadra().getNome() + " já está reservada neste horário!");
         }
 
-        // 2. Se passou da validação, salva no arquivo .txt
+        // Se passou da validação, salva no arquivo .txt
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, true))) {
             
             double valorTotal = reserva.calcularValorTotal(); // Puxa o cálculo polimórfico

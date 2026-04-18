@@ -64,9 +64,7 @@ public class TelaPrincipal extends JFrame {
         painelTelas.add(new PainelQuadras(), "telaQuadras"); 
         painelTelas.add(new PainelAgendamento(), "telaAgendamentos");
         
-        // ==========================================
-        //  PAINEL DE CLIENTES (AGORA POLIDO E MODERNO)
-        // ==========================================
+        //  PAINEL DE CLIENTES
         JPanel painelConteudoClientes = new JPanel();
         painelConteudoClientes.setBackground(new Color(240, 240, 240)); // Fundo moderno
         painelConteudoClientes.setLayout(null);

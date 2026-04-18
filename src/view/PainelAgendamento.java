@@ -60,7 +60,7 @@ public class PainelAgendamento extends JPanel {
         txtValorTotal = new JTextField("R$ 0,00"); txtValorTotal.setEditable(false);
         txtValorTotal.setBounds(510, 99, 310, 25); panelEntrada.add(txtValorTotal);
 
-        // --- BOTÕES COLORIDOS ---
+        // --- BOTÕES DE AÇÕES ---
         JButton btnAgendar = new JButton("Agendar");
         btnAgendar.setBackground(new Color(41, 128, 185)); btnAgendar.setForeground(Color.WHITE);
         btnAgendar.setFont(new Font("Tahoma", Font.BOLD, 12));

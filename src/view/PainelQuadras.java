@@ -69,7 +69,7 @@ public class PainelQuadras extends JPanel {
         txtID.setVisible(false);
         panel_1.add(txtID);
         
-        // --- BOTÕES COLORIDOS ---
+        // --- BOTÕES DE AÇÕES ---
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBackground(new Color(41, 128, 185)); // Azul
         btnCadastrar.setForeground(Color.WHITE); // Letra branca

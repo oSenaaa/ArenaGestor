@@ -17,12 +17,24 @@ public abstract class Quadra {
     // Método abstrato que obriga as subclasses a definirem como o preço final é calculado (Polimorfismo).
     public abstract double calcularPrecoFinal(int horas);
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() { 
+    	return id;
+    	}
+    public void setId(int id) { 
+    	this.id = id;
+    	}
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public String getNome() { 
+    	return nome;
+    	}
+    public void setNome(String nome) { 
+    	this.nome = nome;
+    	}
 
-    public double getValorHora() { return valorHora; }
-    public void setValorHora(double valorHora) { this.valorHora = valorHora; }
+    public double getValorHora() { 
+    	return valorHora;
+    	}
+    public void setValorHora(double valorHora) { 
+    	this.valorHora = valorHora;
+    	}
 }

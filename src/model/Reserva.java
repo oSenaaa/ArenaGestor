@@ -23,7 +23,6 @@ public class Reserva {
         this.horaFim = horaFim;
     }
 
-    // A MÁGICA DO POLIMORFISMO ACONTECE AQUI! (Atende ao RF005)
     // Se a quadra for Society, calcula com a taxa dela. Se for Tênis, com a taxa do Tênis.
     public double calcularValorTotal() {
         int horasAlugadas = horaFim - horaInicio;
