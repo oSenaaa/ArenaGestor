@@ -1,18 +1,21 @@
 package model;
 
-// Classe abstrata que serve de base para qualquer pessoa no sistema, impedindo que seja instanciada diretamente.
 public abstract class Pessoa {
     
-    // Atributos protegidos para permitir acesso direto pelas classes filhas (herança).
     protected String nome;
     protected String cpf;
     protected String telefone;
 
-    // Construtor para inicializar os dados básicos de uma pessoa no momento de sua criação.
     public Pessoa(String nome, String cpf, String telefone) {
         this.nome = nome;
-        this.cpf = cpf;
         this.telefone = telefone;
+        
+        // Se o CPF for válido, salva. Se não, "lança" um erro e para a execução.
+        if (cpf != null && cpf.matches("[0-9]{11}")) {
+            this.cpf = cpf;
+        } else {
+            throw new IllegalArgumentException("CPF inválido! Digite exatamente 11 números, sem traços ou pontos.");
+        }
     }
 
     public String getNome() { return nome; }

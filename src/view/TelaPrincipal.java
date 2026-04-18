@@ -114,18 +114,25 @@ public class TelaPrincipal extends JFrame {
                     return; // Para a execução aqui se estiver vazio
                 }
                 
-                // 3. Cria o objeto da Entidade (Model)
-                Cliente novoCliente = new Cliente(nomeDigitado, cpfDigitado, telefoneDigitado);
-                
-                // 4. Manda o Repository salvar no arquivo .txt
-                ClienteRepository repo = new ClienteRepository();
-                repo.salvar(novoCliente);
-                
-                // 5. Limpa os campos para o próximo cadastro e avisa o usuário
-                txtNome.setText("");
-                txtCPF.setText("");
-                txtTelefone.setText("");
-                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                // 3. Tenta criar o cliente e salvar. Se o CPF for inválido, cai no 'catch'
+                try {
+                    // O erro pode estourar exatamente nesta linha abaixo:
+                    Cliente novoCliente = new Cliente(nomeDigitado, cpfDigitado, telefoneDigitado);
+                    
+                    // 4. Se não deu erro acima, manda o Repository salvar no arquivo .txt
+                    ClienteRepository repo = new ClienteRepository();
+                    repo.salvar(novoCliente);
+                    
+                    // 5. Limpa os campos para o próximo cadastro e avisa o usuário
+                    txtNome.setText("");
+                    txtCPF.setText("");
+                    txtTelefone.setText("");
+                    JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                    
+                } catch (IllegalArgumentException ex) {
+                    // 6. Se deu erro (CPF inválido), o código pula direto para cá e exibe a mensagem!
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         btnCadastrar.setBounds(539, 164, 104, 23);
