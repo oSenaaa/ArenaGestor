@@ -67,4 +67,33 @@ public class ReservaRepository {
         }
         return true; // Retorna VERDADEIRO (A quadra está livre!)
     }
+    
+ // Lê o arquivo de texto e retorna as linhas cruas para preencher a tabela visual
+    public java.util.List<String[]> listarDadosTabela() {
+        java.util.List<String[]> reservas = new java.util.ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                // Formato txt: idReserva ; cpfCliente ; idQuadra ; data ; horaInicio ; horaFim ; valorTotal
+                if (dados.length >= 7) {
+                    reservas.add(dados);
+                }
+            }
+        } catch (IOException e) { }
+        return reservas;
+    }
+
+    // Exclui uma reserva com base no ID (Para o botão "Cancelar Reserva")
+    public void cancelarReserva(int idBusca) {
+        java.util.List<String[]> reservasAtuais = listarDadosTabela();
+        reservasAtuais.removeIf(dados -> Integer.parseInt(dados[0]) == idBusca);
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, false))) {
+            for (String[] r : reservasAtuais) {
+                bw.write(String.join(";", r));
+                bw.newLine();
+            }
+        } catch (IOException e) { }
+    }
 }
