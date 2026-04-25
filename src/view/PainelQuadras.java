@@ -1,184 +1,121 @@
 package view;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import model.*;
 import repository.QuadraRepository;
 
 public class PainelQuadras extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JTextField txtNome;
-    private JComboBox<String> cbTipo; // Agora é um ComboBox
-    private JTextField txtValor;
-    private JTextField txtID; 
-    
+    private JTextField txtNome, txtValor, txtID;
+    private JComboBox<String> cbTipo;
     private JTable tabelaQuadras;
     private DefaultTableModel modeloTabela;
 
     public PainelQuadras() {
-        this.setLayout(null);
-        this.setSize(908, 490);
-        this.setBackground(new Color(240, 240, 240)); // Fundo mais claro e moderno
-        
-        JPanel panel_1 = new JPanel(); 
-        panel_1.setLayout(null);
-        panel_1.setBackground(Color.WHITE); // Fundo branco para o formulário
-        panel_1.setBounds(25, 22, 859, 198);
-        this.add(panel_1);
-        
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(40, 25, 60, 14);
-        panel_1.add(lblNome);
-        
-        txtNome = new JTextField("Ex: Quadra 01"); 
-        txtNome.setBounds(110, 22, 700, 25);
-        panel_1.add(txtNome);
-        
-        JLabel lblTipo = new JLabel("Tipo:");
-        lblTipo.setBounds(40, 65, 60, 14);
-        panel_1.add(lblTipo);
-        
-        // Substituído por ComboBox para evitar erros
-        String[] tiposQuadra = {"Futsal", "Tênis", "Society", "Campo", "Vôlei"};
-        cbTipo = new JComboBox<>(tiposQuadra);
-        cbTipo.setBounds(110, 62, 700, 25);
-        panel_1.add(cbTipo);
-        
-        JLabel lblValorHora = new JLabel("Valor/Hora:");
-        lblValorHora.setBounds(20, 105, 80, 14);
-        panel_1.add(lblValorHora);
-        
-        txtValor = new JTextField("0.00"); 
-        txtValor.setBounds(110, 102, 700, 25);
-        panel_1.add(txtValor);
-        
-        txtID = new JTextField();
-        txtID.setVisible(false);
-        panel_1.add(txtID);
-        
-        // --- BOTÕES DE AÇÕES ---
-        JButton btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBackground(new Color(41, 128, 185)); // Azul
-        btnCadastrar.setForeground(Color.WHITE); // Letra branca
-        btnCadastrar.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnCadastrar.addActionListener(e -> {
-            try {
-                String nome = txtNome.getText();
-                String tipoStr = cbTipo.getSelectedItem().toString().toLowerCase();
-                double valor = Double.parseDouble(txtValor.getText().replace(",", "."));
-                
-                Quadra novaQuadra;
-                if (tipoStr.contains("futsal")) novaQuadra = new QuadraFutsal(0, nome, valor);
-                else if (tipoStr.contains("tênis") || tipoStr.contains("tenis")) novaQuadra = new QuadraTenis(0, nome, valor);
-                else if (tipoStr.contains("society")) novaQuadra = new QuadraSociety(0, nome, valor);
-                else novaQuadra = new QuadraCampo(0, nome, valor); // Padrão Campo/Vôlei
+        this.setLayout(new BorderLayout(0, 20));
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setBackground(new Color(240, 240, 240));
 
-                new QuadraRepository().salvar(novaQuadra);
-                atualizarTabela();
-                limparCampos();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Verifique o valor numérico.");
-            }
-        });
-        btnCadastrar.setBounds(460, 150, 100, 30);
-        panel_1.add(btnCadastrar);
-        
-        JButton btnEditar = new JButton("Editar");
-        btnEditar.setBackground(new Color(220, 220, 220)); // Cinza claro
-        btnEditar.addActionListener(e -> {
-            if (txtID.getText().isEmpty()) return;
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                // Usamos o padrão Futsal apenas para o transporte de dados provisório
-                Quadra qEditada = new QuadraFutsal(id, txtNome.getText(), Double.parseDouble(txtValor.getText().replace(",", ".")));
-                new QuadraRepository().editar(qEditada);
-                atualizarTabela();
-                limparCampos();
-            } catch (Exception ex) { }
-        });
-        btnEditar.setBounds(570, 150, 80, 30);
-        panel_1.add(btnEditar);
-        
-        JButton btnExcluir = new JButton("Excluir");
-        btnExcluir.setBackground(new Color(231, 76, 60)); // Vermelho
-        btnExcluir.setForeground(Color.WHITE);
-        btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnExcluir.addActionListener(e -> {
-            if (!txtID.getText().isEmpty()) {
-                new QuadraRepository().excluir(Integer.parseInt(txtID.getText()));
-                atualizarTabela();
-                limparCampos();
-            }
-        });
-        btnExcluir.setBounds(660, 150, 80, 30);
-        panel_1.add(btnExcluir);
+        JPanel panelForm = new JPanel(null);
+        panelForm.setBackground(Color.WHITE);
+        panelForm.setPreferredSize(new Dimension(0, 200));
+        this.add(panelForm, BorderLayout.NORTH);
 
-        JButton btnLimpar = new JButton("Limpar");
-        btnLimpar.setBackground(new Color(220, 220, 220));
-        btnLimpar.addActionListener(e -> limparCampos());
-        btnLimpar.setBounds(750, 150, 80, 30);
-        panel_1.add(btnLimpar);
+        JLabel lblN = new JLabel("Nome:"); lblN.setBounds(40, 25, 60, 14); panelForm.add(lblN);
+        txtNome = new JTextField(); txtNome.setBounds(110, 22, 700, 25); panelForm.add(txtNome);
 
-        // --- TABELA ---
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(25, 235, 859, 230);
-        this.add(scrollPane);
+        JLabel lblT = new JLabel("Tipo:"); lblT.setBounds(40, 65, 60, 14); panelForm.add(lblT);
+        cbTipo = new JComboBox<>(new String[]{"Futsal", "Tênis", "Society", "Campo", "Vôlei"});
+        cbTipo.setBounds(110, 62, 700, 25); panelForm.add(cbTipo);
 
+        JLabel lblV = new JLabel("Valor/Hora:"); lblV.setBounds(20, 105, 80, 14); panelForm.add(lblV);
+        txtValor = new JTextField("0.00"); txtValor.setBounds(110, 102, 700, 25); panelForm.add(txtValor);
+
+        txtID = new JTextField(); txtID.setVisible(false); panelForm.add(txtID);
+
+        // BOTÕES RESTAURADOS
+        JButton btnCad = new JButton("Cadastrar");
+        btnCad.setBackground(new Color(41, 128, 185)); btnCad.setForeground(Color.WHITE);
+        btnCad.setOpaque(true); btnCad.setBorderPainted(false);
+        btnCad.setBounds(460, 150, 100, 30);
+        btnCad.addActionListener(e -> cadastrar());
+        panelForm.add(btnCad);
+
+        JButton btnEdi = new JButton("Editar");
+        btnEdi.setBackground(new Color(220, 220, 220));
+        btnEdi.setOpaque(true); btnEdi.setBorderPainted(false);
+        btnEdi.setBounds(570, 150, 80, 30);
+        btnEdi.addActionListener(e -> editar());
+        panelForm.add(btnEdi);
+
+        JButton btnExc = new JButton("Excluir");
+        btnExc.setBackground(new Color(231, 76, 60)); btnExc.setForeground(Color.WHITE);
+        btnExc.setOpaque(true); btnExc.setBorderPainted(false);
+        btnExc.setBounds(660, 150, 80, 30);
+        btnExc.addActionListener(e -> excluir());
+        panelForm.add(btnExc);
+
+        JButton btnLim = new JButton("Limpar");
+        btnLim.setBackground(new Color(220, 220, 220));
+        btnLim.setOpaque(true); btnLim.setBorderPainted(false);
+        btnLim.setBounds(750, 150, 80, 30);
+        btnLim.addActionListener(e -> limpar());
+        panelForm.add(btnLim);
+
+        JScrollPane scroll = new JScrollPane();
         modeloTabela = new DefaultTableModel(new Object[][] {}, new String[] {"ID", "Nome", "Tipo", "Valor/Hora"}) {
-            public boolean isCellEditable(int row, int column) { return false; }
+            public boolean isCellEditable(int r, int c) { return false; }
         };
-
         tabelaQuadras = new JTable(modeloTabela);
-        tabelaQuadras.setRowHeight(25); // Linhas mais altas (mais bonito)
-        
+        tabelaQuadras.setRowHeight(25);
         tabelaQuadras.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseClicked(MouseEvent e) {
-                int linha = tabelaQuadras.getSelectedRow();
-                if (linha >= 0) {
-                    txtID.setText(modeloTabela.getValueAt(linha, 0).toString());
-                    txtNome.setText(modeloTabela.getValueAt(linha, 1).toString());
-                    cbTipo.setSelectedItem(modeloTabela.getValueAt(linha, 2).toString());
-                    
-                    // Remove o "R$ " para colocar no campo de texto limpo
-                    String valor = modeloTabela.getValueAt(linha, 3).toString().replace("R$ ", "").replace(",", ".");
-                    txtValor.setText(valor);
+                int r = tabelaQuadras.getSelectedRow();
+                if(r >= 0) {
+                    txtID.setText(modeloTabela.getValueAt(r, 0).toString());
+                    txtNome.setText(modeloTabela.getValueAt(r, 1).toString());
+                    cbTipo.setSelectedItem(modeloTabela.getValueAt(r, 2).toString());
+                    txtValor.setText(modeloTabela.getValueAt(r, 3).toString().replace("R$ ", "").replace(",", "."));
                 }
             }
         });
-        scrollPane.setViewportView(tabelaQuadras);
+        scroll.setViewportView(tabelaQuadras);
+        this.add(scroll, BorderLayout.CENTER);
+
         atualizarTabela();
     }
 
-    private void limparCampos() {
-        txtNome.setText("");
-        txtValor.setText("0.00");
-        txtID.setText("");
-        cbTipo.setSelectedIndex(0);
+    private void cadastrar() {
+        try {
+            double v = Double.parseDouble(txtValor.getText().replace(",", "."));
+            new QuadraRepository().salvar(new QuadraFutsal(0, txtNome.getText(), v));
+            atualizarTabela(); limpar();
+        } catch (Exception ex) { JOptionPane.showMessageDialog(null, "Erro nos dados."); }
     }
+
+    private void editar() {
+        if(txtID.getText().isEmpty()) return;
+        new QuadraRepository().editar(new QuadraFutsal(Integer.parseInt(txtID.getText()), txtNome.getText(), Double.parseDouble(txtValor.getText())));
+        atualizarTabela(); limpar();
+    }
+
+    private void excluir() {
+        if(!txtID.getText().isEmpty()) {
+            new QuadraRepository().excluir(Integer.parseInt(txtID.getText()));
+            atualizarTabela(); limpar();
+        }
+    }
+
+    private void limpar() { txtNome.setText(""); txtValor.setText("0.00"); txtID.setText(""); }
 
     public void atualizarTabela() {
         modeloTabela.setRowCount(0);
-        for (Quadra q : new QuadraRepository().listarTodas()) {
-            // FORMATAÇÃO DO VALOR AQUI!
-            String valorFormatado = String.format("R$ %.2f", q.getValorHora());
-            // Para mostrar bonito sem a palavra "Quadra" na frente (ex: Futsal em vez de QuadraFutsal)
-            String tipoLimpo = q.getClass().getSimpleName().replace("Quadra", "");
-            
-            modeloTabela.addRow(new Object[]{q.getId(), q.getNome(), tipoLimpo, valorFormatado});
-        }
+        new QuadraRepository().listarTodas().forEach(q -> modeloTabela.addRow(new Object[]{q.getId(), q.getNome(), q.getClass().getSimpleName().replace("Quadra", ""), String.format("R$ %.2f", q.getValorHora())}));
     }
 }

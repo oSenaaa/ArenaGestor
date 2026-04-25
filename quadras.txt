@@ -1,2 +1,7 @@
 1;Futsal Coberta 2;200.0;QuadraFutsal
 2;Campo Novo;350.0;QuadraCampo
+3;Arena Central 01 ;120.0;QuadraFutsal
+4;Saibro Premium;150.0;QuadraFutsal
+5;Society do Bosque ;220.0;QuadraFutsal
+6;Quadra Poliesportiva;90.0;QuadraFutsal
+7;Campo A;350.0;QuadraFutsal

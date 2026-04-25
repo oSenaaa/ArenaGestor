@@ -1,22 +1,10 @@
 package view;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import model.Cliente;
 import repository.ClienteRepository;
 
@@ -24,242 +12,167 @@ public class TelaPrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtNome;
-    private JTextField txtCPF;
-    private JTextField txtTelefone;
-    
-    // Componentes da Tabela
+    private JTextField txtNome, txtCPF, txtTelefone;
     private JTable tabelaClientes;
     private DefaultTableModel modeloTabelaClientes;
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    TelaPrincipal frame = new TelaPrincipal();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                TelaPrincipal frame = new TelaPrincipal();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
 
     public TelaPrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(960, 620));
         setBounds(100, 100, 960, 620);
         
-        contentPane = new JPanel();
+        contentPane = new JPanel(new BorderLayout());
         contentPane.setBackground(new Color(223, 223, 223));
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+
+        // --- CABEÇALHO ---
+        JPanel painelCabecalho = new JPanel(null);
+        painelCabecalho.setPreferredSize(new Dimension(0, 70));
+        contentPane.add(painelCabecalho, BorderLayout.NORTH);
+
+        String[] menus = {"Arquivo", "Editar", "Ajuda"};
+        int xMenu = 20;
+        for (String m : menus) {
+            JLabel lbl = new JLabel(m);
+            lbl.setBounds(xMenu, 11, 50, 14);
+            painelCabecalho.add(lbl);
+            xMenu += 56;
+        }
 
         final CardLayout cardLayout = new CardLayout();
         final JPanel painelTelas = new JPanel(cardLayout);
-        painelTelas.setBounds(10, 65, 908, 490); 
-        contentPane.add(painelTelas);
+        contentPane.add(painelTelas, BorderLayout.CENTER);
+
+        // BOTOES NAVEGAÇÃO
+        JButton btnClientes = new JButton("Clientes");
+        btnClientes.setBounds(10, 36, 99, 23);
+        btnClientes.addActionListener(e -> { cardLayout.show(painelTelas, "telaClientes"); atualizarTabelaClientes(); });
+        painelCabecalho.add(btnClientes);
+
+        JButton btnQuadras = new JButton("Quadras");
+        btnQuadras.setBounds(119, 36, 87, 23);
+        btnQuadras.addActionListener(e -> { cardLayout.show(painelTelas, "telaQuadras"); ((PainelQuadras) painelTelas.getComponent(1)).atualizarTabela(); });
+        painelCabecalho.add(btnQuadras);
+
+        JButton btnAgendamentos = new JButton("Agendamentos");
+        btnAgendamentos.setBounds(216, 36, 142, 23);
+        btnAgendamentos.addActionListener(e -> { cardLayout.show(painelTelas, "telaAgendamentos"); ((PainelAgendamento) painelTelas.getComponent(2)).preencherComboBoxes(); });
+        painelCabecalho.add(btnAgendamentos);
+
+        JButton btnStatus = new JButton("Status das Quadras");
+        btnStatus.setBounds(368, 36, 189, 23);
+        btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
+        painelCabecalho.add(btnStatus);
+
+        // --- PAINEL CLIENTES ---
+        JPanel painelCli = new JPanel(new BorderLayout(0, 20));
+        painelCli.setBorder(new EmptyBorder(20, 20, 20, 20));
+        
+        JPanel formCli = new JPanel(null);
+        formCli.setBackground(Color.WHITE);
+        formCli.setPreferredSize(new Dimension(0, 200));
+        painelCli.add(formCli, BorderLayout.NORTH);
+
+        JLabel lblN = new JLabel("Nome:"); lblN.setBounds(40, 25, 60, 14); formCli.add(lblN);
+        txtNome = new JTextField(); txtNome.setBounds(110, 22, 700, 25); formCli.add(txtNome);
+        JLabel lblC = new JLabel("CPF:"); lblC.setBounds(40, 65, 60, 14); formCli.add(lblC);
+        txtCPF = new JTextField(); txtCPF.setBounds(110, 62, 700, 25); formCli.add(txtCPF);
+        JLabel lblT = new JLabel("Telefone:"); lblT.setBounds(40, 105, 80, 14); formCli.add(lblT);
+        txtTelefone = new JTextField(); txtTelefone.setBounds(110, 102, 700, 25); formCli.add(txtTelefone);
+
+        // TODOS OS BOTÕES RESTAURADOS E COM FIX PARA MAC
+        JButton btnCad = new JButton("Cadastrar");
+        btnCad.setBackground(new Color(41, 128, 185)); btnCad.setForeground(Color.WHITE);
+        btnCad.setOpaque(true); btnCad.setBorderPainted(false);
+        btnCad.setBounds(460, 150, 100, 30);
+        btnCad.addActionListener(e -> cadastrarCliente());
+        formCli.add(btnCad);
+
+        JButton btnEdi = new JButton("Editar");
+        btnEdi.setBackground(new Color(220, 220, 220)); 
+        btnEdi.setOpaque(true); btnEdi.setBorderPainted(false);
+        btnEdi.setBounds(570, 150, 80, 30);
+        btnEdi.addActionListener(e -> editarCliente());
+        formCli.add(btnEdi);
+
+        JButton btnExc = new JButton("Excluir");
+        btnExc.setBackground(new Color(231, 76, 60)); btnExc.setForeground(Color.WHITE);
+        btnExc.setOpaque(true); btnExc.setBorderPainted(false);
+        btnExc.setBounds(660, 150, 80, 30);
+        btnExc.addActionListener(e -> excluirCliente());
+        formCli.add(btnExc);
+
+        JButton btnLim = new JButton("Limpar");
+        btnLim.setBackground(new Color(220, 220, 220));
+        btnLim.setOpaque(true); btnLim.setBorderPainted(false);
+        btnLim.setBounds(750, 150, 80, 30);
+        btnLim.addActionListener(e -> limparCampos());
+        formCli.add(btnLim);
+
+        JScrollPane scroll = new JScrollPane();
+        modeloTabelaClientes = new DefaultTableModel(new Object[][] {}, new String[] {"Nome", "CPF", "Telefone"}) {
+            public boolean isCellEditable(int r, int c) { return false; }
+        };
+        tabelaClientes = new JTable(modeloTabelaClientes);
+        tabelaClientes.setRowHeight(25);
+        tabelaClientes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int r = tabelaClientes.getSelectedRow();
+                if(r >= 0) {
+                    txtNome.setText(modeloTabelaClientes.getValueAt(r, 0).toString());
+                    txtCPF.setText(modeloTabelaClientes.getValueAt(r, 1).toString());
+                    txtTelefone.setText(modeloTabelaClientes.getValueAt(r, 2).toString());
+                    txtCPF.setEditable(false);
+                }
+            }
+        });
+        scroll.setViewportView(tabelaClientes);
+        painelCli.add(scroll, BorderLayout.CENTER);
 
         painelTelas.add(new PainelStatusQuadra(), "telaStatusDaQuadra");
         painelTelas.add(new PainelQuadras(), "telaQuadras"); 
         painelTelas.add(new PainelAgendamento(), "telaAgendamentos");
-        
-        //  PAINEL DE CLIENTES
-        JPanel painelConteudoClientes = new JPanel();
-        painelConteudoClientes.setBackground(new Color(240, 240, 240)); // Fundo moderno
-        painelConteudoClientes.setLayout(null);
-        
-        JPanel panel_1 = new JPanel();
-        panel_1.setBackground(Color.WHITE); // Fundo branco do formulário
-        panel_1.setBounds(25, 22, 859, 198);
-        panel_1.setLayout(null);
-        painelConteudoClientes.add(panel_1);
-        
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(40, 25, 60, 14);
-        panel_1.add(lblNome);
-        
-        JLabel lblCpf = new JLabel("CPF:");
-        lblCpf.setBounds(40, 65, 60, 14);
-        panel_1.add(lblCpf);
-        
-        JLabel lblTelefone = new JLabel("Telefone:");
-        lblTelefone.setBounds(40, 105, 80, 14);
-        panel_1.add(lblTelefone);
-        
-        txtNome = new JTextField();
-        txtNome.setBounds(110, 22, 700, 25);
-        panel_1.add(txtNome);
-        
-        txtCPF = new JTextField();
-        txtCPF.setBounds(110, 62, 700, 25);
-        panel_1.add(txtCPF);
-        
-        txtTelefone = new JTextField();
-        txtTelefone.setBounds(110, 102, 700, 25);
-        panel_1.add(txtTelefone);
-        
-        // --- BOTÃO CADASTRAR (AZUL) ---
-        JButton btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBackground(new Color(41, 128, 185)); 
-        btnCadastrar.setForeground(Color.WHITE); 
-        btnCadastrar.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnCadastrar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(txtNome.getText().isEmpty() || txtCPF.getText().isEmpty() || txtTelefone.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
-                    return;
-                }
-                try {
-                    Cliente novoCliente = new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText());
-                    new ClienteRepository().salvar(novoCliente);
-                    
-                    JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-                    limparCampos();
-                    atualizarTabelaClientes();
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        btnCadastrar.setBounds(460, 150, 100, 30);
-        panel_1.add(btnCadastrar);
-        
-        // --- BOTÃO EDITAR (CINZA) ---
-        JButton btnEditar = new JButton("Editar");
-        btnEditar.setBackground(new Color(220, 220, 220));
-        btnEditar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Cliente clienteEditado = new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText());
-                    new ClienteRepository().editar(clienteEditado);
-                    
-                    JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
-                    limparCampos();
-                    atualizarTabelaClientes();
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        btnEditar.setBounds(570, 150, 80, 30);
-        panel_1.add(btnEditar);
-        
-        // --- BOTÃO EXCLUIR (VERMELHO) ---
-        JButton btnExcluir = new JButton("Excluir");
-        btnExcluir.setBackground(new Color(231, 76, 60)); 
-        btnExcluir.setForeground(Color.WHITE);
-        btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnExcluir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String cpfDigitado = txtCPF.getText();
-                if(cpfDigitado.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Selecione um cliente na tabela para excluir.");
-                    return;
-                }
-                new ClienteRepository().excluir(cpfDigitado);
-                JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
-                limparCampos();
-                atualizarTabelaClientes();
-            }
-        });
-        btnExcluir.setBounds(660, 150, 80, 30);
-        panel_1.add(btnExcluir);
-
-        // --- BOTÃO LIMPAR (CINZA) ---
-        JButton btnLimpar = new JButton("Limpar");
-        btnLimpar.setBackground(new Color(220, 220, 220));
-        btnLimpar.addActionListener(e -> limparCampos());
-        btnLimpar.setBounds(750, 150, 80, 30);
-        panel_1.add(btnLimpar);
-
-        // --- TABELA DE CLIENTES ---
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(25, 235, 859, 230); 
-        painelConteudoClientes.add(scrollPane);
-        
-        modeloTabelaClientes = new DefaultTableModel(new Object[][] {}, new String[] {"Nome", "CPF", "Telefone"}) {
-            public boolean isCellEditable(int row, int column) {
-                return false; 
-            }
-        };
-        
-        tabelaClientes = new JTable(modeloTabelaClientes);
-        tabelaClientes.setRowHeight(25); // Linhas com a mesma altura da tela de Quadras
-        
-        tabelaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                int linha = tabelaClientes.getSelectedRow();
-                if (linha >= 0) {
-                    txtNome.setText(modeloTabelaClientes.getValueAt(linha, 0).toString());
-                    txtCPF.setText(modeloTabelaClientes.getValueAt(linha, 1).toString());
-                    txtTelefone.setText(modeloTabelaClientes.getValueAt(linha, 2).toString());
-                    txtCPF.setEditable(false); 
-                }
-            }
-        });
-        
-        scrollPane.setViewportView(tabelaClientes);
-        painelTelas.add(painelConteudoClientes, "telaClientes");
-
-        // --- MENU E NAVEGAÇÃO ---
-        JLabel lblArquivo = new JLabel("Arquivo");
-        lblArquivo.setBounds(20, 11, 46, 14);
-        contentPane.add(lblArquivo);
-        
-        JLabel lblEditar = new JLabel("Editar");
-        lblEditar.setBounds(76, 11, 46, 14);
-        contentPane.add(lblEditar);
-        
-        JLabel lblAjuda = new JLabel("Ajuda");
-        lblAjuda.setBounds(132, 11, 46, 14);
-        contentPane.add(lblAjuda);
-
-        JButton btnClientes = new JButton("Clientes");
-        btnClientes.addActionListener(e -> {
-            cardLayout.show(painelTelas, "telaClientes");
-            atualizarTabelaClientes(); 
-        });
-        btnClientes.setBounds(10, 36, 99, 23);
-        contentPane.add(btnClientes);
-        
-        JButton btnQuadras = new JButton("Quadras");
-        btnQuadras.addActionListener(e -> {
-            cardLayout.show(painelTelas, "telaQuadras");
-            ((PainelQuadras) painelTelas.getComponent(1)).atualizarTabela(); // Atualiza ao clicar
-        });
-        btnQuadras.setBounds(119, 36, 87, 23);
-        contentPane.add(btnQuadras);
-        
-        JButton btnAgendamentos = new JButton("Agendamentos");
-        btnAgendamentos.addActionListener(e -> {
-            cardLayout.show(painelTelas, "telaAgendamentos"); 
-            ((PainelAgendamento) painelTelas.getComponent(2)).preencherComboBoxes();
-        });
-        btnAgendamentos.setBounds(216, 36, 142, 23);
-        contentPane.add(btnAgendamentos);
-        
-        JButton btnStatusDaQuadra = new JButton("Status das Quadras");
-        btnStatusDaQuadra.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
-        btnStatusDaQuadra.setBounds(368, 36, 189, 23);
-        contentPane.add(btnStatusDaQuadra);
+        painelTelas.add(painelCli, "telaClientes");
 
         atualizarTabelaClientes();
     }
-    
-    private void limparCampos() {
-        txtNome.setText("");
-        txtCPF.setText("");
-        txtTelefone.setText("");
-        txtCPF.setEditable(true); 
+
+    private void cadastrarCliente() {
+        try {
+            new ClienteRepository().salvar(new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText()));
+            JOptionPane.showMessageDialog(this, "Sucesso!");
+            limparCampos(); atualizarTabelaClientes();
+        } catch (Exception ex) { JOptionPane.showMessageDialog(this, ex.getMessage()); }
     }
 
+    private void editarCliente() {
+        try {
+            new ClienteRepository().editar(new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText()));
+            JOptionPane.showMessageDialog(this, "Atualizado!");
+            limparCampos(); atualizarTabelaClientes();
+        } catch (Exception ex) { JOptionPane.showMessageDialog(this, "Erro ao editar"); }
+    }
+
+    private void excluirCliente() {
+        new ClienteRepository().excluir(txtCPF.getText());
+        limparCampos(); atualizarTabelaClientes();
+    }
+
+    private void limparCampos() { txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText(""); txtCPF.setEditable(true); }
+
     private void atualizarTabelaClientes() {
-        modeloTabelaClientes.setNumRows(0); 
-        ClienteRepository repo = new ClienteRepository();
-        for (Cliente c : repo.listarTodos()) {
-            modeloTabelaClientes.addRow(new Object[]{c.getNome(), c.getCpf(), c.getTelefone()});
-        }
+        modeloTabelaClientes.setRowCount(0);
+        new ClienteRepository().listarTodos().forEach(c -> modeloTabelaClientes.addRow(new Object[]{c.getNome(), c.getCpf(), c.getTelefone()}));
     }
 }
