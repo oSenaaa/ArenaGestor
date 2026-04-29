@@ -5,3 +5,5 @@
 5;Society do Bosque ;220.0;QuadraFutsal
 6;Quadra Poliesportiva;90.0;QuadraFutsal
 7;Campo A;350.0;QuadraFutsal
+8;Quadrinha da Viela;60.0;QuadraFutsal
+9;Quadrinha da esquina;60.0;QuadraFutsal
