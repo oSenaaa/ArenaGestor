@@ -42,6 +42,7 @@ public class TelaPrincipal extends JFrame {
 
         // --- CABEÇALHO ---
         JPanel painelCabecalho = new JPanel(null);
+        painelCabecalho.setBackground(new Color(245, 245, 245));
         painelCabecalho.setPreferredSize(new Dimension(0, 70));
         contentPane.add(painelCabecalho, BorderLayout.NORTH);
 
@@ -61,6 +62,7 @@ public class TelaPrincipal extends JFrame {
         JButton btnClientes = new JButton("Clientes");
         btnClientes.setBounds(10, 36, 99, 23);
         btnClientes.addActionListener(e -> { cardLayout.show(painelTelas, "telaClientes"); atualizarTabelaClientes(); });
+        painelCabecalho.setLayout(null);
         painelCabecalho.add(btnClientes);
 
         JButton btnQuadras = new JButton("Quadras");
@@ -77,6 +79,11 @@ public class TelaPrincipal extends JFrame {
         btnStatus.setBounds(368, 36, 189, 23);
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setBounds(756, 11, 150, 59);
+        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\AMD\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\GGEMLU1Z\\Design_sem_nome_(2)[1].png"));
+        painelCabecalho.add(lblNewLabel);
 
         // --- PAINEL CLIENTES ---
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
