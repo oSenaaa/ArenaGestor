@@ -9,6 +9,7 @@ public abstract class Pessoa {
     public Pessoa(String nome, String cpf, String telefone) {
         this.nome = nome;
         setCpf(cpf); // Chama o método com a nova validação inteligente
+        
         this.telefone = telefone;
     }
 
