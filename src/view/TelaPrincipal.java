@@ -77,15 +77,6 @@ public class TelaPrincipal extends JFrame {
         btnStatus.setBounds(368, 36, 189, 23);
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
-<<<<<<< HEAD
-        
-        JLabel lblLogo = new JLabel("");
-        lblLogo.setIcon(new ImageIcon("C:\\Users\\AMD\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\YLCYURRC\\Design_sem_nome_(2)[1].png"));
-        lblLogo.setBackground(Color.WHITE);
-        lblLogo.setBounds(773, 11, 161, 61);
-        painelCabecalho.add(lblLogo);
-=======
->>>>>>> branch 'master' of https://github.com/oSenaaa/ArenaGestor.git
 
         // --- PAINEL CLIENTES ---
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
