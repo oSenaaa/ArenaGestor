@@ -69,7 +69,8 @@ public class PainelAgendamento extends JPanel {
         btnCan.setBounds(570, 140, 150, 30);
         btnCan.addActionListener(e -> cancelar());
         panelEntrada.add(btnCan);
-        // Adicionei o botão limpar para ficar igual ao seu print
+        
+        // BOTÃO DE LIMPAR 
         JButton btnLimpar = new JButton("Limpar");
         btnLimpar.setFont(new Font("Tahoma", Font.BOLD, 11));
         btnLimpar.setBounds(730, 140, 90, 30);
@@ -85,7 +86,7 @@ public class PainelAgendamento extends JPanel {
         scroll.setViewportView(tabelaReservas);
         this.add(scroll, BorderLayout.CENTER);
  
-        // Inicia a inteligência do cálculo em tempo real!
+        // CALCULOS EM TEMPO REAL
         configurarEventosDeCalculo();
         preencherComboBoxes();
         atualizarTabela();

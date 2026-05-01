@@ -183,7 +183,7 @@ public class TelaPrincipal extends JFrame {
         tabelaClientes = new JTable(modeloTabelaClientes);
         tabelaClientes.setRowHeight(25);
         
-        // Ativando o Sorter na Tabela
+        // Ativando o Sorter na Tabela (Cria um organizador de linhas da tabela que permite ordenar ao clicar no cabeçalho
         sorterClientes = new TableRowSorter<>(modeloTabelaClientes);
         tabelaClientes.setRowSorter(sorterClientes);
         
