@@ -84,7 +84,7 @@ public class TelaPrincipal extends JFrame {
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/img/Logo.png.png")));
-        lblNewLabel.setBounds(752, 20, 155, 39);
+        lblNewLabel.setBounds(794, 0, 150, 70);
         painelCabecalho.add(lblNewLabel);
 
         // --- PAINEL CLIENTES ---
