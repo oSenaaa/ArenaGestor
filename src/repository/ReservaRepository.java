@@ -25,7 +25,7 @@ public class ReservaRepository {
             
             // Formato salvo: idReserva ; cpfCliente ; idQuadra ; data ; horaInicio ; horaFim ; valorTotal
             String linha = reserva.getId() + ";" + 
-                           reserva.getCliente().getCpf() + ";" + 
+                           reserva.getCliente().getNome() + ";" + 
                            reserva.getQuadra().getId() + ";" + 
                            reserva.getData() + ";" + 
                            reserva.getHoraInicio() + ";" + 

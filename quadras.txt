@@ -17,4 +17,7 @@
 17;Tênis VIP;250.0;QuadraTenis
 18;Society Master;190.0;QuadraSociety
 19;Minicampo Treino;250.0;QuadraCampo
-20;Vôlei Praia Master;130.0;QuadraVolei
+20;Vôlei Praia Master;130.0;QuadraVolei20;
+20;Teste;80.0;QuadraTenis
+21;Arena Teste Tênis;100.0;QuadraTenis
+22;Quadra Terrão;30.0;QuadraCampo
