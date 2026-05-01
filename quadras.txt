@@ -2,22 +2,16 @@
 2;Quadra de Tênis Saibro;200.0;QuadraTenis
 3;Society dos Amigos;180.0;QuadraSociety
 4;Campo de Grama Natural;400.0;QuadraCampo
-5;Quadra de Vôlei Areia;100.0;QuadraVolei
 6;Quadra Futsal Coberta;160.0;QuadraFutsal
 7;Tênis Rápida A;180.0;QuadraTenis
 8;Society Premium Coberto;220.0;QuadraSociety
 9;Campo Sintético B;350.0;QuadraCampo
-10;Ginásio Poliesportivo;120.0;QuadraVolei
 11;Arena Futsal B;140.0;QuadraFutsal
 12;Tênis Rápida B;180.0;QuadraTenis
 13;Society Estrela;170.0;QuadraSociety
 14;Campo Oficial FIFA;600.0;QuadraCampo
-15;Vôlei de Quadra;110.0;QuadraVolei
 16;Futsal Descoberta;100.0;QuadraFutsal
 17;Tênis VIP;250.0;QuadraTenis
 18;Society Master;190.0;QuadraSociety
 19;Minicampo Treino;250.0;QuadraCampo
-20;Vôlei Praia Master;130.0;QuadraVolei20;
-20;Teste;80.0;QuadraTenis
-21;Arena Teste Tênis;100.0;QuadraTenis
 22;Quadra Terrão;30.0;QuadraCampo
