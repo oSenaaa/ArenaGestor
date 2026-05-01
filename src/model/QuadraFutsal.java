@@ -3,7 +3,7 @@ package model;
 // Classe que herda de Quadra e representa especificamente uma quadra de Futsal.
 public class QuadraFutsal extends Quadra {
 
-    // Construtor que inicializa a quadra de futsal repassando os dados para a classe mãe.
+	 // Construtor que inicializa a quadra de futsal repassando os dados para a classe mãe.
     public QuadraFutsal(int id, String nome, double valorHora) {
         super(id, nome, valorHora);
     }
