@@ -38,6 +38,7 @@ public class TelaPrincipal extends JFrame {
 
         // CABEÇALHO
         JPanel painelCabecalho = new JPanel(null);
+        painelCabecalho.setBackground(new Color(247, 247, 247));
         painelCabecalho.setPreferredSize(new Dimension(0, 70));
         contentPane.add(painelCabecalho, BorderLayout.NORTH);
 
@@ -58,6 +59,7 @@ public class TelaPrincipal extends JFrame {
         JButton btnClientes = new JButton("Clientes");
         btnClientes.setBounds(10, 36, 99, 23);
         btnClientes.addActionListener(e -> { cardLayout.show(painelTelas, "telaClientes"); atualizarTabelaClientes(); });
+        painelCabecalho.setLayout(null);
         painelCabecalho.add(btnClientes);
 
         JButton btnQuadras = new JButton("Quadras");
@@ -74,6 +76,12 @@ public class TelaPrincipal extends JFrame {
         btnStatus.setBounds(368, 36, 189, 23);
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
+        
+        JLabel lblLogo = new JLabel("New label");
+        lblLogo.setIcon(new ImageIcon("C:\\Users\\AMD\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\YLCYURRC\\Design_sem_nome_(2)[1].png"));
+        lblLogo.setBackground(Color.WHITE);
+        lblLogo.setBounds(773, 11, 161, 61);
+        painelCabecalho.add(lblLogo);
 
         // Jpanel de clientes
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
@@ -140,7 +148,9 @@ public class TelaPrincipal extends JFrame {
         scroll.setViewportView(tabelaClientes);
         painelCli.add(scroll, BorderLayout.CENTER);
 
-        painelTelas.add(new PainelStatusQuadra(), "telaStatusDaQuadra");
+        PainelStatusQuadra painelStatusQuadra = new PainelStatusQuadra();
+        painelStatusQuadra.setBackground(new Color(255, 255, 255));
+        painelTelas.add(painelStatusQuadra, "telaStatusDaQuadra");
         painelTelas.add(new PainelQuadras(), "telaQuadras"); 
         painelTelas.add(new PainelAgendamento(), "telaAgendamentos");
         painelTelas.add(painelCli, "telaClientes");

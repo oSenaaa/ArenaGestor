@@ -91,6 +91,7 @@ public class PainelQuadras extends JPanel {
         atualizarTabela();
     }
 
+    //Ajustar o erro de cadastro onde o tipo da quadra só é selecionado futsal.
     private void cadastrar() {
         try {
             double v = Double.parseDouble(txtValor.getText().replace(",", "."));
