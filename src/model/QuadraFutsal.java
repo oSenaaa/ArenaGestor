@@ -1,6 +1,6 @@
 package model;
 
-// Classe que herda de Quadra e representa especificamente uma quadra de Futsal.
+//Classe que herda de Quadra e representa especificamente uma quadra de Futsal.
 public class QuadraFutsal extends Quadra {
 
 	 // Construtor que inicializa a quadra de futsal repassando os dados para a classe mãe.
