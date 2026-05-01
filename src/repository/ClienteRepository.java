@@ -15,14 +15,14 @@ public class ClienteRepository {
     private static final String CAMINHO_ARQUIVO = "clientes.txt";
 
     public void salvar(Cliente cliente) {
-        // 1. VALIDAÇÃO DE DUPLICIDADE
+        //  VALIDAÇÃO DE DUPLICIDADE
         for (Cliente c : listarTodos()) {
             if (c.getCpf().equals(cliente.getCpf())) {
                 throw new IllegalArgumentException("Erro: O CPF " + cliente.getCpf() + " já está cadastrado!");
             }
         }
 
-        // 2. SALVAMENTO
+        // SALVAMENTO
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, true))) {
             bw.write(cliente.getNome() + ";" + cliente.getCpf() + ";" + cliente.getTelefone());
             bw.newLine();
