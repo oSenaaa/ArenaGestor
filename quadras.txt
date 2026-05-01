@@ -1,13 +1,20 @@
-1;Futsal Coberta 2;200.0;QuadraFutsal
-2;Campo Novo;350.0;QuadraCampo
-3;Arena Central 01 ;120.0;QuadraFutsal
-5;Society do Bosque ;220.0;QuadraFutsal
-6;Quadra Poliesportiva;90.0;QuadraFutsal
-<<<<<<< HEAD
-8;Saibro Premium;150.0;QuadraTenis
-9;Campo A;350.0;QuadraCampo
-=======
-7;Campo A;350.0;QuadraFutsal
-8;Quadrinha da Viela;60.0;QuadraFutsal
-9;Quadrinha da esquina;60.0;QuadraFutsal
->>>>>>> branch 'master' of https://github.com/oSenaaa/ArenaGestor.git
+1;Arena Futsal Oficial;150.0;QuadraFutsal
+2;Quadra de Tênis Saibro;200.0;QuadraTenis
+3;Society dos Amigos;180.0;QuadraSociety
+4;Campo de Grama Natural;400.0;QuadraCampo
+5;Quadra de Vôlei Areia;100.0;QuadraVolei
+6;Quadra Futsal Coberta;160.0;QuadraFutsal
+7;Tênis Rápida A;180.0;QuadraTenis
+8;Society Premium Coberto;220.0;QuadraSociety
+9;Campo Sintético B;350.0;QuadraCampo
+10;Ginásio Poliesportivo;120.0;QuadraVolei
+11;Arena Futsal B;140.0;QuadraFutsal
+12;Tênis Rápida B;180.0;QuadraTenis
+13;Society Estrela;170.0;QuadraSociety
+14;Campo Oficial FIFA;600.0;QuadraCampo
+15;Vôlei de Quadra;110.0;QuadraVolei
+16;Futsal Descoberta;100.0;QuadraFutsal
+17;Tênis VIP;250.0;QuadraTenis
+18;Society Master;190.0;QuadraSociety
+19;Minicampo Treino;250.0;QuadraCampo
+20;Vôlei Praia Master;130.0;QuadraVolei
