@@ -138,7 +138,7 @@ public class PainelAgendamento extends JPanel {
             txtValorTotal.setText("R$ 0,00");
         }
     }
-    // -----------------------------------------------------
+ 
 
     public void preencherComboBoxes() {
         cbCliente.removeAllItems();
@@ -162,7 +162,6 @@ public class PainelAgendamento extends JPanel {
 
     private void executarAgendamento() {
         try {
-            // Trava de segurança para não agendar com erro no valor
             if (txtValorTotal.getText().equals("Horário Inválido")) {
                 JOptionPane.showMessageDialog(this, "Ajuste os horários antes de agendar!");
                 return;
@@ -174,10 +173,18 @@ public class PainelAgendamento extends JPanel {
             int hi = Integer.parseInt(cbHoraInicio.getSelectedItem().toString().split(":")[0]);
             int hf = Integer.parseInt(cbHoraFim.getSelectedItem().toString().split(":")[0]);
             
-            new ReservaRepository().salvar(new Reserva(0, c, q, data, hi, hf));
+            // Pega o ID da última reserva na tabela e soma + 1. Se estiver vazia, o ID é 1.
+            int novoId = 1;
+            if (tabelaReservas.getRowCount() > 0) {
+                novoId = Integer.parseInt(modeloTabela.getValueAt(tabelaReservas.getRowCount() - 1, 0).toString()) + 1;
+            }
+            
+            new ReservaRepository().salvar(new Reserva(novoId, c, q, data, hi, hf));
             atualizarTabela();
             JOptionPane.showMessageDialog(this, "Agendamento realizado com sucesso!");
-        } catch (Exception ex) { JOptionPane.showMessageDialog(this, "Erro!"); }
+        } catch (Exception ex) { 
+            JOptionPane.showMessageDialog(this, "Erro!"); 
+        }
     }
 
     private void cadastrarClienteRapido() {

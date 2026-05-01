@@ -36,7 +36,7 @@ public class TelaPrincipal extends JFrame {
         contentPane.setBackground(new Color(223, 223, 223));
         setContentPane(contentPane);
 
-        // --- CABEÇALHO ---
+        // CABEÇALHO
         JPanel painelCabecalho = new JPanel(null);
         painelCabecalho.setPreferredSize(new Dimension(0, 70));
         contentPane.add(painelCabecalho, BorderLayout.NORTH);
@@ -75,7 +75,7 @@ public class TelaPrincipal extends JFrame {
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
 
-        // --- PAINEL CLIENTES ---
+        // Jpanel de clientes
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
         painelCli.setBorder(new EmptyBorder(20, 20, 20, 20));
         
@@ -91,7 +91,7 @@ public class TelaPrincipal extends JFrame {
         JLabel lblT = new JLabel("Telefone:"); lblT.setBounds(40, 105, 80, 14); formCli.add(lblT);
         txtTelefone = new JTextField(); txtTelefone.setBounds(110, 102, 700, 25); formCli.add(txtTelefone);
 
-        // TODOS OS BOTÕES RESTAURADOS E COM FIX PARA MAC
+        // Botões de ação 
         JButton btnCad = new JButton("Cadastrar");
         btnCad.setBackground(new Color(41, 128, 185)); btnCad.setForeground(Color.WHITE);
         btnCad.setOpaque(true); btnCad.setBorderPainted(false);

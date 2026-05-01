@@ -94,9 +94,31 @@ public class PainelQuadras extends JPanel {
     private void cadastrar() {
         try {
             double v = Double.parseDouble(txtValor.getText().replace(",", "."));
-            new QuadraRepository().salvar(new QuadraFutsal(0, txtNome.getText(), v));
-            atualizarTabela(); limpar();
-        } catch (Exception ex) { JOptionPane.showMessageDialog(null, "Erro nos dados."); }
+            String tipoSelecionado = cbTipo.getSelectedItem().toString();
+            Quadra q = null;
+            
+            // Lógica para gerar um ID provisório baseado nas linhas da tabela
+            int novoId = modeloTabela.getRowCount() > 0 ? Integer.parseInt(modeloTabela.getValueAt(modeloTabela.getRowCount() - 1, 0).toString()) + 1 : 1;
+
+            // Instancia a classe correta baseada no ComboBox (Polimorfismo Restaurado)
+            if (tipoSelecionado.equals("Futsal")) {
+                q = new QuadraFutsal(novoId, txtNome.getText(), v);
+            } else if (tipoSelecionado.equals("Tênis")) {
+                q = new QuadraTenis(novoId, txtNome.getText(), v);
+            } else if (tipoSelecionado.equals("Society")) {
+                q = new QuadraSociety(novoId, txtNome.getText(), v);
+            } else if (tipoSelecionado.equals("Campo")) {
+                q = new QuadraCampo(novoId, txtNome.getText(), v);
+            } else {
+                q = new QuadraFutsal(novoId, txtNome.getText(), v); // Padrão de segurança
+            }
+
+            new QuadraRepository().salvar(q);
+            atualizarTabela(); 
+            limpar();
+        } catch (Exception ex) { 
+            JOptionPane.showMessageDialog(null, "Valor inválido. Use apenas números."); 
+        }
     }
 
     private void editar() {
