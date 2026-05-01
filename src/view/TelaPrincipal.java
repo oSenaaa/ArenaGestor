@@ -209,6 +209,8 @@ public class TelaPrincipal extends JFrame {
         painelTelas.add(painelCli, "telaClientes");
 
         atualizarTabelaClientes();
+        
+        cardLayout.show(painelTelas, "telaClientes"); 
     }
 
     private void cadastrarCliente() {
