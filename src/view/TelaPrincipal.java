@@ -77,7 +77,7 @@ public class TelaPrincipal extends JFrame {
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
         
-        JLabel lblLogo = new JLabel("New label");
+        JLabel lblLogo = new JLabel("");
         lblLogo.setIcon(new ImageIcon("C:\\Users\\AMD\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\YLCYURRC\\Design_sem_nome_(2)[1].png"));
         lblLogo.setBackground(Color.WHITE);
         lblLogo.setBounds(773, 11, 161, 61);
