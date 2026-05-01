@@ -2,40 +2,47 @@ package model;
 
 public abstract class Pessoa {
     
-    protected String nome;
-    protected String cpf;
-    protected String telefone;
+    private String nome;
+    private String cpf;
+    private String telefone;
 
     public Pessoa(String nome, String cpf, String telefone) {
         this.nome = nome;
+        setCpf(cpf); // Chama o método com a nova validação inteligente
         this.telefone = telefone;
-        
-        // Se o CPF for válido, salva. Se não, "lança" um erro e para a execução.
-        if (cpf != null && cpf.matches("[0-9]{11}")) {
-            this.cpf = cpf;
-        } else {
-            throw new IllegalArgumentException("CPF inválido! Digite exatamente 11 números, sem traços ou pontos.");
-        }
     }
 
-    public String getNome() { 
-    	return nome;
-    	}
-    public void setNome(String nome) { 
-    	this.nome = nome; 
-    	}
+    public String getNome() {
+        return nome;
+    }
 
-    public String getCpf() { 
-    	return cpf;
-    	}
-    public void setCpf(String cpf) { 
-    	this.cpf = cpf;
-    	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public String getTelefone() { 
-    	return telefone;
-    	}
-    public void setTelefone(String telefone) { 
-    	this.telefone = telefone;
-    	}
+    public String getCpf() {
+        return cpf;
+    }
+
+    // A MÁGICA ACONTECE AQUI
+    public void setCpf(String cpf) {
+        // 1. Limpa os caracteres especiais apenas para a validação
+        String cpfLimpo = cpf.replace(".", "").replace("-", "").trim();
+        
+        // 2. Verifica se sobraram exatamente 11 números
+        if (cpfLimpo.length() != 11) {
+            throw new IllegalArgumentException("CPF inválido! O CPF deve conter 11 números.");
+        }
+        
+        // 3. Se passou no teste, salva a versão formatada original
+        this.cpf = cpf; 
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 }

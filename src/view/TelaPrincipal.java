@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.Cliente;
 import repository.ClienteRepository;
+import javax.swing.text.MaskFormatter;
+import javax.swing.JFormattedTextField;
 
 public class TelaPrincipal extends JFrame {
 
@@ -96,10 +98,30 @@ public class TelaPrincipal extends JFrame {
 
         JLabel lblN = new JLabel("Nome:"); lblN.setBounds(40, 25, 60, 14); formCli.add(lblN);
         txtNome = new JTextField(); txtNome.setBounds(110, 22, 700, 25); formCli.add(txtNome);
+        
+        // ==========================================
+        //  MÁSCARAS DE CAMPO APLICADAS
+        // ==========================================
         JLabel lblC = new JLabel("CPF:"); lblC.setBounds(40, 65, 60, 14); formCli.add(lblC);
-        txtCPF = new JTextField(); txtCPF.setBounds(110, 62, 700, 25); formCli.add(txtCPF);
+        try {
+            MaskFormatter maskCPF = new MaskFormatter("###.###.###-##");
+            maskCPF.setPlaceholderCharacter('_');
+            txtCPF = new JFormattedTextField(maskCPF);
+        } catch (Exception ex) {
+            txtCPF = new JTextField();
+        }
+        txtCPF.setBounds(110, 62, 700, 25); formCli.add(txtCPF);
+
         JLabel lblT = new JLabel("Telefone:"); lblT.setBounds(40, 105, 80, 14); formCli.add(lblT);
-        txtTelefone = new JTextField(); txtTelefone.setBounds(110, 102, 700, 25); formCli.add(txtTelefone);
+        try {
+            MaskFormatter maskTel = new MaskFormatter("(##) #####-####");
+            maskTel.setPlaceholderCharacter('_');
+            txtTelefone = new JFormattedTextField(maskTel);
+        } catch (Exception ex) {
+            txtTelefone = new JTextField();
+        }
+        txtTelefone.setBounds(110, 102, 700, 25); formCli.add(txtTelefone);
+        // ==========================================
 
         // ==========================================
         //  NOVA BARRA DE PESQUISA EM TEMPO REAL
