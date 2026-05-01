@@ -4,7 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import model.Cliente;
 import repository.ClienteRepository;
 
@@ -12,9 +15,10 @@ public class TelaPrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtNome, txtCPF, txtTelefone;
+    private JTextField txtNome, txtCPF, txtTelefone, txtBusca;
     private JTable tabelaClientes;
     private DefaultTableModel modeloTabelaClientes;
+    private TableRowSorter<DefaultTableModel> sorterClientes;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -38,7 +42,6 @@ public class TelaPrincipal extends JFrame {
 
         // --- CABEÇALHO ---
         JPanel painelCabecalho = new JPanel(null);
-        painelCabecalho.setBackground(new Color(247, 247, 247));
         painelCabecalho.setPreferredSize(new Dimension(0, 70));
         contentPane.add(painelCabecalho, BorderLayout.NORTH);
 
@@ -55,11 +58,9 @@ public class TelaPrincipal extends JFrame {
         final JPanel painelTelas = new JPanel(cardLayout);
         contentPane.add(painelTelas, BorderLayout.CENTER);
 
-        // BOTOES NAVEGAÇÃO
         JButton btnClientes = new JButton("Clientes");
         btnClientes.setBounds(10, 36, 99, 23);
         btnClientes.addActionListener(e -> { cardLayout.show(painelTelas, "telaClientes"); atualizarTabelaClientes(); });
-        painelCabecalho.setLayout(null);
         painelCabecalho.add(btnClientes);
 
         JButton btnQuadras = new JButton("Quadras");
@@ -76,12 +77,15 @@ public class TelaPrincipal extends JFrame {
         btnStatus.setBounds(368, 36, 189, 23);
         btnStatus.addActionListener(e -> cardLayout.show(painelTelas, "telaStatusDaQuadra"));
         painelCabecalho.add(btnStatus);
+<<<<<<< HEAD
         
         JLabel lblLogo = new JLabel("");
         lblLogo.setIcon(new ImageIcon("C:\\Users\\AMD\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\YLCYURRC\\Design_sem_nome_(2)[1].png"));
         lblLogo.setBackground(Color.WHITE);
         lblLogo.setBounds(773, 11, 161, 61);
         painelCabecalho.add(lblLogo);
+=======
+>>>>>>> branch 'master' of https://github.com/oSenaaa/ArenaGestor.git
 
         // --- PAINEL CLIENTES ---
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
@@ -99,34 +103,58 @@ public class TelaPrincipal extends JFrame {
         JLabel lblT = new JLabel("Telefone:"); lblT.setBounds(40, 105, 80, 14); formCli.add(lblT);
         txtTelefone = new JTextField(); txtTelefone.setBounds(110, 102, 700, 25); formCli.add(txtTelefone);
 
-        // TODOS OS BOTÕES RESTAURADOS E COM FIX PARA MAC
+        // ==========================================
+        //  NOVA BARRA DE PESQUISA EM TEMPO REAL
+        // ==========================================
+        JLabel lblBusca = new JLabel("Pesquisar:"); 
+        lblBusca.setBounds(40, 155, 70, 14); 
+        formCli.add(lblBusca);
+        
+        txtBusca = new JTextField(); 
+        txtBusca.setBounds(110, 150, 280, 25); 
+        formCli.add(txtBusca);
+
+        txtBusca.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { filtrar(); }
+            public void removeUpdate(DocumentEvent e) { filtrar(); }
+            public void changedUpdate(DocumentEvent e) { filtrar(); }
+            private void filtrar() {
+                String texto = txtBusca.getText();
+                if (texto.trim().length() == 0) {
+                    sorterClientes.setRowFilter(null);
+                } else {
+                    sorterClientes.setRowFilter(RowFilter.regexFilter("(?i)" + texto)); // (?i) ignora maiúsculas/minúsculas
+                }
+            }
+        });
+        // ==========================================
+
         JButton btnCad = new JButton("Cadastrar");
         btnCad.setBackground(new Color(41, 128, 185)); btnCad.setForeground(Color.WHITE);
         btnCad.setOpaque(true); btnCad.setBorderPainted(false);
-        btnCad.setBounds(460, 150, 100, 30);
+        btnCad.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnCad.setBounds(410, 150, 120, 30); 
         btnCad.addActionListener(e -> cadastrarCliente());
         formCli.add(btnCad);
-
-        JButton btnEdi = new JButton("Editar");
-        btnEdi.setBackground(new Color(220, 220, 220)); 
-        btnEdi.setOpaque(true); btnEdi.setBorderPainted(false);
-        btnEdi.setBounds(570, 150, 80, 30);
-        btnEdi.addActionListener(e -> editarCliente());
-        formCli.add(btnEdi);
 
         JButton btnExc = new JButton("Excluir");
         btnExc.setBackground(new Color(231, 76, 60)); btnExc.setForeground(Color.WHITE);
         btnExc.setOpaque(true); btnExc.setBorderPainted(false);
-        btnExc.setBounds(660, 150, 80, 30);
+        btnExc.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnExc.setBounds(540, 150, 100, 30); 
         btnExc.addActionListener(e -> excluirCliente());
         formCli.add(btnExc);
+        
+        JButton btnEdi = new JButton("Editar");
+        btnEdi.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnEdi.setBounds(650, 150, 100, 30);
+        formCli.add(btnEdi);
 
-        JButton btnLim = new JButton("Limpar");
-        btnLim.setBackground(new Color(220, 220, 220));
-        btnLim.setOpaque(true); btnLim.setBorderPainted(false);
-        btnLim.setBounds(750, 150, 80, 30);
-        btnLim.addActionListener(e -> limparCampos());
-        formCli.add(btnLim);
+        JButton btnLimpar = new JButton("Limpar");
+        btnLimpar.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnLimpar.setBounds(760, 150, 100, 30);
+        btnLimpar.addActionListener(e -> limparCampos());
+        formCli.add(btnLimpar);
 
         JScrollPane scroll = new JScrollPane();
         modeloTabelaClientes = new DefaultTableModel(new Object[][] {}, new String[] {"Nome", "CPF", "Telefone"}) {
@@ -134,13 +162,20 @@ public class TelaPrincipal extends JFrame {
         };
         tabelaClientes = new JTable(modeloTabelaClientes);
         tabelaClientes.setRowHeight(25);
+        
+        // Ativando o Sorter na Tabela
+        sorterClientes = new TableRowSorter<>(modeloTabelaClientes);
+        tabelaClientes.setRowSorter(sorterClientes);
+        
         tabelaClientes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int r = tabelaClientes.getSelectedRow();
-                if(r >= 0) {
-                    txtNome.setText(modeloTabelaClientes.getValueAt(r, 0).toString());
-                    txtCPF.setText(modeloTabelaClientes.getValueAt(r, 1).toString());
-                    txtTelefone.setText(modeloTabelaClientes.getValueAt(r, 2).toString());
+                // Ao usar filtro, precisamos converter a linha clicada na tela para a linha real do modelo
+                int viewRow = tabelaClientes.getSelectedRow();
+                if(viewRow >= 0) {
+                    int modelRow = tabelaClientes.convertRowIndexToModel(viewRow);
+                    txtNome.setText(modeloTabelaClientes.getValueAt(modelRow, 0).toString());
+                    txtCPF.setText(modeloTabelaClientes.getValueAt(modelRow, 1).toString());
+                    txtTelefone.setText(modeloTabelaClientes.getValueAt(modelRow, 2).toString());
                     txtCPF.setEditable(false);
                 }
             }
@@ -148,9 +183,7 @@ public class TelaPrincipal extends JFrame {
         scroll.setViewportView(tabelaClientes);
         painelCli.add(scroll, BorderLayout.CENTER);
 
-        PainelStatusQuadra painelStatusQuadra = new PainelStatusQuadra();
-        painelStatusQuadra.setBackground(new Color(255, 255, 255));
-        painelTelas.add(painelStatusQuadra, "telaStatusDaQuadra");
+        painelTelas.add(new PainelStatusQuadra(), "telaStatusDaQuadra");
         painelTelas.add(new PainelQuadras(), "telaQuadras"); 
         painelTelas.add(new PainelAgendamento(), "telaAgendamentos");
         painelTelas.add(painelCli, "telaClientes");
@@ -166,20 +199,15 @@ public class TelaPrincipal extends JFrame {
         } catch (Exception ex) { JOptionPane.showMessageDialog(this, ex.getMessage()); }
     }
 
-    private void editarCliente() {
-        try {
-            new ClienteRepository().editar(new Cliente(txtNome.getText(), txtCPF.getText(), txtTelefone.getText()));
-            JOptionPane.showMessageDialog(this, "Atualizado!");
-            limparCampos(); atualizarTabelaClientes();
-        } catch (Exception ex) { JOptionPane.showMessageDialog(this, "Erro ao editar"); }
-    }
-
     private void excluirCliente() {
         new ClienteRepository().excluir(txtCPF.getText());
         limparCampos(); atualizarTabelaClientes();
     }
 
-    private void limparCampos() { txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText(""); txtCPF.setEditable(true); }
+    private void limparCampos() { 
+        txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText(""); 
+        txtBusca.setText(""); txtCPF.setEditable(true); 
+    }
 
     private void atualizarTabelaClientes() {
         modeloTabelaClientes.setRowCount(0);
