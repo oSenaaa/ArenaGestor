@@ -37,17 +37,29 @@ public class ClienteRepository {
         reescreverArquivo(clientes);
     }
 
-    public void editar(Cliente clienteEditado) {
+    public void editar(String cpfOriginal, Cliente clienteEditado) {
         List<Cliente> clientes = listarTodos();
+        boolean clienteEncontrado = false;
+
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getCpf().equals(clienteEditado.getCpf())) {
-                clientes.set(i, clienteEditado);
-                break;
+            // Comparamos o CPF do TXT com o CPF ORIGINAL (ignorando espaços invisíveis)
+            String cpfTxt = clientes.get(i).getCpf().trim();
+            String cpfBusca = cpfOriginal.trim();
+
+            if (cpfTxt.equals(cpfBusca)) {
+                clientes.set(i, clienteEditado); // Substitui pelo novo
+                clienteEncontrado = true;
+                break; // Achou e trocou? Para a busca.
             }
         }
-        reescreverArquivo(clientes);
-    }
 
+        if (clienteEncontrado) {
+            reescreverArquivo(clientes);
+            System.out.println("Cliente editado com sucesso no arquivo!");
+        } else {
+            System.out.println("ERRO: O cliente com CPF " + cpfOriginal + " não foi encontrado no arquivo.");
+        }
+    }
     public List<Cliente> listarTodos() {
         List<Cliente> clientes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
