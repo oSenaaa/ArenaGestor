@@ -96,7 +96,7 @@ public class TelaPrincipal extends JFrame {
         lblNewLabel.setBounds(794, 0, 150, 70);
         painelCabecalho.add(lblNewLabel);
 
-        // --- PAINEL CLIENTES ---
+        //  PAINEL CLIENTES 
         JPanel painelCli = new JPanel(new BorderLayout(0, 20));
         painelCli.setBorder(new EmptyBorder(20, 20, 20, 20));
 
