@@ -182,7 +182,7 @@ public class TelaPrincipal extends JFrame {
         btnExc.addActionListener(e -> excluirCliente());
         formCli.add(btnExc);
 
-        // ✅ ActionListener adicionado ao botão Editar
+        // Botão
         JButton btnEdi = new JButton("Editar");
         btnEdi.setBackground(new Color(39, 174, 96));
         btnEdi.setForeground(Color.WHITE);
